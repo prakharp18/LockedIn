@@ -39,7 +39,7 @@ function ScrollingDigit({ value, list }) {
   );
 }
 
-function TimerBlock() {
+function TimerBlock({ onClick }) {
   const [time, setTime] = useState(getRandomTime());
 
   useEffect(() => {
@@ -50,7 +50,10 @@ function TimerBlock() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-6 text-center">
+    <div
+      onClick={onClick}
+      className="cursor-pointer bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition"
+    >
       <h3 className="text-2xl font-semibold mb-4">Choose Your Timer</h3>
       <div className="flex justify-center items-center space-x-2">
         <ScrollingDigit value={time.hours} list={hoursList} />
