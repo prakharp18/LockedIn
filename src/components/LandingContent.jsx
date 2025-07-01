@@ -55,9 +55,9 @@ function LandingContent({
     <section className="flex flex-col gap-8">
       <div>
         <motion.h2
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
+          transition={{ duration: 0.6 }}
           className="text-4xl font-bold font-heading"
         >
           Stay Focused with LockedIn
