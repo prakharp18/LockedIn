@@ -24,7 +24,7 @@ function Header() {
         rel="noopener noreferrer"
         className="text-sm underline text-gray-400 hover:text-white transition"
       >
-        CheckIt →
+        Check out CheckIt →
       </a>
     </header>
   );

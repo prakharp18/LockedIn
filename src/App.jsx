@@ -1,28 +1,84 @@
-//import { Phone } from "lucide-react";
+import { useState } from "react";
 import Header from "./components/Header";
 import LandingContent from "./components/LandingContent";
 import PhonePreview from "./components/PhonePreview";
-import { useState } from "react";
+import HistoryScreen from "./components/HistoryScreen";
 
 function App() {
   const [activeScreen, setActiveScreen] = useState("home");
   const [focusTime, setFocusTime] = useState(25 * 60);
+  const [secondsLeft, setSecondsLeft] = useState(focusTime);
+  const [isRunning, setIsRunning] = useState(false);
+  const [sessionSaved, setSessionSaved] = useState(false);
+  const [sessionFinished, setSessionFinished] = useState(false);
+
+  const handleSetFocusTime = (time) => {
+    setFocusTime(time);
+    if (!isRunning) {
+      setSecondsLeft(time);
+    }
+  };
+
+  const startFocus = () => {
+    setIsRunning(false);
+    setSecondsLeft(focusTime);
+    setSessionSaved(false);
+    setSessionFinished(false);
+
+    setTimeout(() => {
+      setIsRunning(true);
+      setActiveScreen("focus");
+    }, 10);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-white dark:from-[#0f0f0f] dark:to-[#1a1a1a] text-[#1a1a1a] dark:text-[#f5f5f5] transition-colors duration-300">
       <Header />
-      <main className="flex flex-1 flex-col lg:flex-row items-center justify-between px-6 lg:px-16 py-8 gap-10 overflow-hidden">
-        <LandingContent
-          setActiveScreen={setActiveScreen}
-          setFocusTime={setFocusTime}
-        />
-        <PhonePreview
-          activeScreen={activeScreen}
-          setActiveScreen={setActiveScreen}
-          focusTime={focusTime} // ✅ This was missing
-        />
+
+      <main className="flex flex-col lg:flex-row items-start justify-center px-6 lg:px-24 py-12 gap-10 max-w-[1440px] mx-auto">
+        <div className="w-full lg:w-1/2">
+          {activeScreen === "home" && (
+            <LandingContent
+              setActiveScreen={setActiveScreen}
+              setFocusTime={handleSetFocusTime}
+              setSecondsLeft={setSecondsLeft}
+              startFocus={startFocus}
+            />
+          )}
+
+          {activeScreen === "focus" && (
+            <div className="mt-6 text-center text-base opacity-70">
+              <p>💪 You're in focus mode. Stay on track!</p>
+            </div>
+          )}
+
+          {activeScreen === "history" && (
+            <div className="w-full flex justify-center">
+              <HistoryScreen setActiveScreen={setActiveScreen} />
+            </div>
+          )}
+        </div>
+
+        <div className="w-full max-w-xs flex justify-center">
+          {(activeScreen === "home" || activeScreen === "focus") && (
+            <PhonePreview
+              activeScreen={activeScreen}
+              setActiveScreen={setActiveScreen}
+              focusTime={focusTime}
+              secondsLeft={secondsLeft}
+              setSecondsLeft={setSecondsLeft}
+              isRunning={isRunning}
+              setIsRunning={setIsRunning}
+              sessionSaved={sessionSaved}
+              setSessionSaved={setSessionSaved}
+              sessionFinished={sessionFinished}
+              setSessionFinished={setSessionFinished}
+            />
+          )}
+        </div>
       </main>
     </div>
   );
 }
+
 export default App;

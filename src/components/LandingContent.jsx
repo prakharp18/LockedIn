@@ -3,7 +3,12 @@ import FeatureIcons from "./FeatureIcons";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-function LandingContent({ setActiveScreen, setFocusTime }) {
+function LandingContent({
+  setActiveScreen,
+  setFocusTime,
+  setSecondsLeft,
+  startFocus,
+}) {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState({
     hours: "00",
@@ -24,8 +29,30 @@ function LandingContent({ setActiveScreen, setFocusTime }) {
     }));
   };
 
+  const handleStart = () => {
+    const paddedTime = {
+      hours: selectedTime.hours.padStart(2, "0"),
+      minutes: selectedTime.minutes.padStart(2, "0"),
+      seconds: selectedTime.seconds.padStart(2, "0"),
+    };
+
+    const totalSeconds =
+      parseInt(paddedTime.hours) * 3600 +
+      parseInt(paddedTime.minutes) * 60 +
+      parseInt(paddedTime.seconds);
+
+    if (totalSeconds < 60) {
+      alert("Please enter at least 1 minute.");
+      return;
+    }
+
+    setFocusTime(totalSeconds);
+    setSecondsLeft(totalSeconds);
+    startFocus();
+  };
+
   return (
-    <section className="flex flex-col gap-8 lg:w-1/2">
+    <section className="flex flex-col gap-8">
       <div>
         <motion.h2
           initial={{ opacity: 0, y: -10 }}
@@ -56,7 +83,7 @@ function LandingContent({ setActiveScreen, setFocusTime }) {
             return (
               <div
                 key={field}
-                className="flex flex-col items-center text-center w-24"
+                className="flex flex-column items-center text-center w-24"
               >
                 <label className="text-sm mb-1 text-gray-400">{label}</label>
                 <input
@@ -74,32 +101,13 @@ function LandingContent({ setActiveScreen, setFocusTime }) {
       )}
 
       <button
-        onClick={() => {
-          const paddedTime = {
-            hours: selectedTime.hours.padStart(2, "0"),
-            minutes: selectedTime.minutes.padStart(2, "0"),
-            seconds: selectedTime.seconds.padStart(2, "0"),
-          };
-
-          const totalSeconds =
-            parseInt(paddedTime.hours) * 3600 +
-            parseInt(paddedTime.minutes) * 60 +
-            parseInt(paddedTime.seconds);
-
-          if (totalSeconds < 60) {
-            alert("Please enter at least 1 minute.");
-            return;
-          }
-
-          setFocusTime(totalSeconds);
-          setActiveScreen("focus");
-        }}
+        onClick={handleStart}
         className="mx-auto px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow transition mt-4"
       >
         Start Focus
       </button>
 
-      <FeatureIcons />
+      <FeatureIcons setActiveScreen={setActiveScreen} />
     </section>
   );
 }
