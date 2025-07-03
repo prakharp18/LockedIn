@@ -15,6 +15,14 @@ function LandingContent({
     minutes: "25",
     seconds: "00",
   });
+  const sessionTypes = [
+    { label: "Study", emoji: "🧠" },
+    { label: "Work", emoji: "💼" },
+    { label: "Break", emoji: "☕" },
+    { label: "Writing", emoji: "✍️" },
+    { label: "Focus", emoji: "🧘" },
+  ];
+  const [sessionType, setSessionType] = useState("Focus");
 
   const handleChange = (field, value) => {
     if (!/^\d*$/.test(value)) return;
@@ -48,7 +56,7 @@ function LandingContent({
 
     setFocusTime(totalSeconds);
     setSecondsLeft(totalSeconds);
-    startFocus();
+    startFocus(sessionType);
   };
 
   return (
@@ -99,6 +107,21 @@ function LandingContent({
           })}
         </div>
       )}
+      <div className="flex flex-wrap gap-2 justify-center mt-2">
+        {sessionTypes.map((type) => (
+          <button
+            key={type.label}
+            onClick={() => setSessionType(type.label)}
+            className={`px-3 py-1 rounded-full text-sm transition-all border ${
+              sessionType === type.label
+                ? "bg-purple-600 text-white border-purple-600"
+                : "bg-white/10 text-gray-400 border-gray-600"
+            }`}
+          >
+            {type.emoji} {type.label}
+          </button>
+        ))}
+      </div>
 
       <button
         onClick={handleStart}

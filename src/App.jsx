@@ -11,6 +11,7 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [sessionSaved, setSessionSaved] = useState(false);
   const [sessionFinished, setSessionFinished] = useState(false);
+  const [currentSessionType, setCurrentSessionType] = useState("Focus");
 
   const handleSetFocusTime = (time) => {
     setFocusTime(time);
@@ -19,11 +20,12 @@ function App() {
     }
   };
 
-  const startFocus = () => {
+  const startFocus = (type) => {
     setIsRunning(false);
     setSecondsLeft(focusTime);
     setSessionSaved(false);
     setSessionFinished(false);
+    setCurrentSessionType(type);
 
     setTimeout(() => {
       setIsRunning(true);
@@ -36,6 +38,7 @@ function App() {
       <Header />
 
       <main className="flex flex-col lg:flex-row items-start justify-center px-6 lg:px-24 py-12 gap-10 max-w-[1440px] mx-auto">
+        {/* LEFT */}
         <div className="w-full lg:w-1/2">
           {activeScreen === "home" && (
             <LandingContent
@@ -59,6 +62,7 @@ function App() {
           )}
         </div>
 
+        {/* RIGHT */}
         <div className="w-full max-w-xs flex justify-center">
           {(activeScreen === "home" || activeScreen === "focus") && (
             <PhonePreview
@@ -73,6 +77,7 @@ function App() {
               setSessionSaved={setSessionSaved}
               sessionFinished={sessionFinished}
               setSessionFinished={setSessionFinished}
+              sessionType={currentSessionType}
             />
           )}
         </div>

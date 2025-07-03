@@ -4,12 +4,12 @@ function HistoryScreen({ setActiveScreen }) {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("lockedin_sessions")) || [];
+    const stored = JSON.parse(localStorage.getItem("focusHistory")) || [];
     setHistory(stored);
   }, []);
 
   const clearHistory = () => {
-    localStorage.removeItem("lockedin_sessions");
+    localStorage.removeItem("focusHistory");
     setHistory([]);
   };
 
@@ -51,14 +51,14 @@ function HistoryScreen({ setActiveScreen }) {
                   key={index}
                   className="bg-[#1f1f1f] border border-gray-700 rounded-xl p-4 shadow-inner"
                 >
-                  <div className="text-sm text-gray-400 mb-1 font-mono">
-                    {new Date(entry.completedAt).toLocaleString("en-IN", {
+                  <div className="text-sm text-gray-400 mb-1">
+                    {new Date(entry.timestamp).toLocaleString("en-IN", {
                       dateStyle: "medium",
                       timeStyle: "short",
                     })}
                   </div>
-                  <div className="text-base font-semibold text-white">
-                    Duration: {Math.floor(entry.duration / 60)} min
+                  <div className="text-lg font-medium text-white">
+                    Duration: {entry.duration ?? "Unknown"}
                   </div>
                   <div
                     className={`text-sm mt-1 font-mono ${
