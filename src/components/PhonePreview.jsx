@@ -14,6 +14,10 @@ function PhonePreview({
   activeScreen,
   sessionType,
 }) {
+  const username = localStorage.getItem("username") || "User";
+  const notificationsEnabled =
+    localStorage.getItem("notificationsEnabled") === "true";
+
   const audio = new Audio("/notify.mp3");
   const intervalRef = useRef(null);
   const hasSavedRef = useRef(false);
@@ -90,12 +94,17 @@ function PhonePreview({
 
   // Desk Noti.
   const playAlert = () => {
-    if ("Notification" in window && Notification.permission === "granted") {
+    if (
+      notificationsEnabled &&
+      "Notification" in window &&
+      Notification.permission === "granted"
+    ) {
       new Notification(`✅ Great Job, ${username}!`, {
         body: "Take a break or start another session.",
         icon: "src/assets/focus_17194259.png",
       });
     }
+
     audio.play().catch(() => {});
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
   };

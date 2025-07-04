@@ -1,7 +1,8 @@
 import TimerBlock from "./TimerBlock";
 import FeatureIcons from "./FeatureIcons";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { sessionConfigs } from "./sessionConfigs";
 
 function LandingContent({
   setActiveScreen,
@@ -10,11 +11,14 @@ function LandingContent({
   startFocus,
 }) {
   const [showPicker, setShowPicker] = useState(false);
+  const [sessionType, setSessionType] = useState("Focus");
+
   const [selectedTime, setSelectedTime] = useState({
     hours: "00",
     minutes: "25",
     seconds: "00",
   });
+
   const sessionTypes = [
     { label: "Study", emoji: "🧠" },
     { label: "Work", emoji: "💼" },
@@ -22,7 +26,20 @@ function LandingContent({
     { label: "Writing", emoji: "✍️" },
     { label: "Focus", emoji: "🧘" },
   ];
-  const [sessionType, setSessionType] = useState("Focus");
+
+  useEffect(() => {
+    const config = sessionConfigs[sessionType];
+    const mins = Math.floor(config.defaultDuration / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (config.defaultDuration % 60).toString().padStart(2, "0");
+
+    setSelectedTime({
+      hours: "00",
+      minutes: mins,
+      seconds: secs,
+    });
+  }, [sessionType]);
 
   const handleChange = (field, value) => {
     if (!/^\d*$/.test(value)) return;
@@ -38,24 +55,17 @@ function LandingContent({
   };
 
   const handleStart = () => {
-    const paddedTime = {
-      hours: selectedTime.hours.padStart(2, "0"),
-      minutes: selectedTime.minutes.padStart(2, "0"),
-      seconds: selectedTime.seconds.padStart(2, "0"),
-    };
-
+    const config = sessionConfigs[sessionType];
     const totalSeconds =
-      parseInt(paddedTime.hours) * 3600 +
-      parseInt(paddedTime.minutes) * 60 +
-      parseInt(paddedTime.seconds);
+      parseInt(selectedTime.hours || "0") * 3600 +
+      parseInt(selectedTime.minutes || "0") * 60 +
+      parseInt(selectedTime.seconds || "0");
 
-    if (totalSeconds < 60) {
-      alert("Please enter at least 1 minute.");
-      return;
-    }
+    const finalTime =
+      totalSeconds >= 60 ? totalSeconds : config.defaultDuration;
 
-    setFocusTime(totalSeconds);
-    setSecondsLeft(totalSeconds);
+    setFocusTime(finalTime);
+    setSecondsLeft(finalTime);
     startFocus(sessionType);
   };
 
@@ -107,12 +117,16 @@ function LandingContent({
           })}
         </div>
       )}
+
       <div className="flex flex-wrap gap-2 justify-center mt-2">
         {sessionTypes.map((type) => (
           <button
             key={type.label}
-            onClick={() => setSessionType(type.label)}
-            className={`px-3 py-1 rounded-full text-sm transition-all border ${
+            onClick={() => {
+              console.log("Selected session type:", type.label);
+              setSessionType(type.label);
+            }}
+            className={`px-3 py-1 rounded-full text-sm transition-all border font-medium ${
               sessionType === type.label
                 ? "bg-purple-600 text-white border-purple-600"
                 : "bg-white/10 text-gray-400 border-gray-600"
@@ -129,6 +143,7 @@ function LandingContent({
       >
         Start Focus
       </button>
+
       <FeatureIcons setActiveScreen={setActiveScreen} />
     </section>
   );

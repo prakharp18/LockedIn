@@ -7,6 +7,7 @@ import StatsScreen from "./components/StatsScreen";
 import GraphsPage from "./components/GraphsPage";
 import SettingsPage from "./components/SettingsPage";
 import WelcomeModal from "./components/WelcomeModal";
+import sessionBackgrounds from "./components/sessionBackground";
 
 function App() {
   const [activeScreen, setActiveScreen] = useState("home");
@@ -18,6 +19,10 @@ function App() {
   const [currentSessionType, setCurrentSessionType] = useState("Focus");
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const backgroundClass =
+    activeScreen === "focus"
+      ? sessionBackgrounds[currentSessionType]
+      : "bg-gradient-to-br from-[#f5f5f5] to-white dark:from-[#0f0f0f] dark:to-[#1a1a1a]";
 
   useEffect(() => {
     const storedName = localStorage.getItem("username");
@@ -50,7 +55,9 @@ function App() {
     return <WelcomeModal setShowModal={setShowWelcomeModal} />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-white dark:from-[#0f0f0f] dark:to-[#1a1a1a] text-[#1a1a1a] dark:text-[#f5f5f5] transition-colors duration-300">
+    <div
+      className={`min-h-screen text-[#1a1a1a] dark:text-[#f5f5f5] transition-colors duration-300 ${backgroundClass}`}
+    >
       <Header />
 
       <main className="flex flex-col lg:flex-row items-start justify-center px-6 lg:px-24 py-12 gap-10 max-w-[1440px] mx-auto">
