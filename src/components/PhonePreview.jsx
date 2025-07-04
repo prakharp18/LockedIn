@@ -91,7 +91,7 @@ function PhonePreview({
   // Desk Noti.
   const playAlert = () => {
     if ("Notification" in window && Notification.permission === "granted") {
-      new Notification("✅ Focus Session Completed!", {
+      new Notification(`✅ Great Job, ${username}!`, {
         body: "Take a break or start another session.",
         icon: "src/assets/focus_17194259.png",
       });

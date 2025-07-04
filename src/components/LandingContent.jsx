@@ -129,7 +129,6 @@ function LandingContent({
       >
         Start Focus
       </button>
-
       <FeatureIcons setActiveScreen={setActiveScreen} />
     </section>
   );

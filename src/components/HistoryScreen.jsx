@@ -9,36 +9,39 @@ function HistoryScreen({ setActiveScreen }) {
   }, []);
 
   const clearHistory = () => {
-    localStorage.removeItem("focusHistory");
-    setHistory([]);
+    if (confirm("Are you sure you want to clear all focus session history?")) {
+      localStorage.removeItem("focusHistory");
+      setHistory([]);
+    }
   };
 
   return (
-    <div className="w-full flex justify-center px-4">
-      <div className="w-full max-w-2xl py-10">
-        <div className="flex justify-between items-center mb-6">
+    <div className="w-full max-w-2xl mx-auto px-6 py-12">
+      {/* Top Navigation */}
+      <div className="flex justify-between items-center mb-6">
+        <button
+          onClick={() => setActiveScreen("home")}
+          className="text-purple-400 hover:text-purple-300 transition text-sm"
+        >
+          ← Back
+        </button>
+        {history.length > 0 && (
           <button
-            onClick={() => setActiveScreen("home")}
-            className="text-purple-400 hover:text-purple-300 transition text-sm"
+            onClick={clearHistory}
+            className="text-red-400 hover:text-red-300 transition text-sm flex items-center gap-1"
           >
-            ← Back
+            🧹 Clear History
           </button>
-          {history.length > 0 && (
-            <button
-              onClick={clearHistory}
-              className="text-red-400 hover:text-red-300 transition text-sm flex items-center gap-1"
-            >
-              🧹 Clear History
-            </button>
-          )}
-        </div>
+        )}
+      </div>
 
-        <h2 className="text-3xl font-bold mb-6 text-center text-white font-heading ">
-          Focus History
-        </h2>
+      <h2 className="text-2xl font-bold text-white text-center mb-6">
+        📖 Focus History
+      </h2>
 
+      <div className="bg-[#1a1a1a] border border-gray-700 rounded-xl p-6 shadow-inner text-white">
         {history.length === 0 ? (
-          <p className="text-center text-gray-500 text-sm">
+          <p className="text-center text-gray-400 text-sm">
             No history available.
           </p>
         ) : (
@@ -49,7 +52,7 @@ function HistoryScreen({ setActiveScreen }) {
               .map((entry, index) => (
                 <div
                   key={index}
-                  className="bg-[#1f1f1f] border border-gray-700 rounded-xl p-4 shadow-inner"
+                  className="bg-[#121212] border border-gray-600 rounded-lg p-4"
                 >
                   <div className="text-sm text-gray-400 mb-1">
                     {new Date(entry.timestamp).toLocaleString("en-IN", {
@@ -57,7 +60,7 @@ function HistoryScreen({ setActiveScreen }) {
                       timeStyle: "short",
                     })}
                   </div>
-                  <div className="text-lg font-medium text-white">
+                  <div className="text-base font-medium text-white">
                     Duration: {entry.duration ?? "Unknown"}
                   </div>
                   <div

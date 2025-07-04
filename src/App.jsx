@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import LandingContent from "./components/LandingContent";
 import PhonePreview from "./components/PhonePreview";
 import HistoryScreen from "./components/HistoryScreen";
+import StatsScreen from "./components/StatsScreen";
+import GraphsPage from "./components/GraphsPage";
+import SettingsPage from "./components/SettingsPage";
+import WelcomeModal from "./components/WelcomeModal";
 
 function App() {
   const [activeScreen, setActiveScreen] = useState("home");
@@ -12,6 +16,15 @@ function App() {
   const [sessionSaved, setSessionSaved] = useState(false);
   const [sessionFinished, setSessionFinished] = useState(false);
   const [currentSessionType, setCurrentSessionType] = useState("Focus");
+
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("username");
+    if (!storedName) {
+      setShowWelcomeModal(true);
+    }
+  }, []);
 
   const handleSetFocusTime = (time) => {
     setFocusTime(time);
@@ -32,6 +45,9 @@ function App() {
       setActiveScreen("focus");
     }, 10);
   };
+
+  if (showWelcomeModal)
+    return <WelcomeModal setShowModal={setShowWelcomeModal} />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-white dark:from-[#0f0f0f] dark:to-[#1a1a1a] text-[#1a1a1a] dark:text-[#f5f5f5] transition-colors duration-300">
@@ -60,7 +76,25 @@ function App() {
               <HistoryScreen setActiveScreen={setActiveScreen} />
             </div>
           )}
+
+          {activeScreen === "stats" && (
+            <div className="w-full flex justify-center">
+              <StatsScreen setActiveScreen={setActiveScreen} />
+            </div>
+          )}
         </div>
+
+        {activeScreen === "graph" && (
+          <div className="w-full flex justify-center">
+            <GraphsPage setActiveScreen={setActiveScreen} />
+          </div>
+        )}
+
+        {activeScreen === "settings" && (
+          <div className="w-full flex justify-center">
+            <SettingsPage setActiveScreen={setActiveScreen} />
+          </div>
+        )}
 
         {/* RIGHT */}
         <div className="w-full max-w-xs flex justify-center">
