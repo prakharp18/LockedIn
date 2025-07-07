@@ -1,15 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="src/assets/focus_17194259.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/focus_17194259.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LockedIn</title>
 </head>
 
-<body>
+<body class="bg-black text-white overflow-hidden m-0 p-0">
+  <div id="top-left-info"
+    style="position: absolute; top: 1rem; left: 1rem; z-index: 50; display: flex; align-items: center; gap: 0.75rem;">
+    <img src="/focus_17194259.png" alt="Logo"
+      style="width: 40px; height: 40px; object-fit: contain;filter: invert() ; border-radius: 8px;" />
+
+  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

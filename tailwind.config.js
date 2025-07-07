@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['Outfit', 'sans-serif'],
+        heading: ["'Space Grotesk'", "sans-serif"],
       },
 
     },
