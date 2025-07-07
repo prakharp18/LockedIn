@@ -1,10 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  WorkSession,
-  BreakSession,
-  WritingSession,
-  FocusSession,
-} from "./sessions/SessionScreens";
 
 const sessionTypes = [
   { label: "Work", emoji: "💼" },
@@ -20,9 +14,16 @@ const navIcons = [
   { label: "Settings", emoji: "⚙️" },
 ];
 
-export default function LandingPage() {
+export default function LandingPage({
+  username,
+  startSession,
+  openHistory,
+  openSettings,
+}) {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [selectedSession, setSelectedSession] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [customMinutes, setCustomMinutes] = useState("");
+  const [customHours, setCustomHours] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -35,27 +36,50 @@ export default function LandingPage() {
     second: "2-digit",
   });
 
-  if (selectedSession === "Work")
-    return <WorkSession onExit={() => setSelectedSession(null)} />;
-  if (selectedSession === "Break")
-    return <BreakSession onExit={() => setSelectedSession(null)} />;
-  if (selectedSession === "Writing")
-    return <WritingSession onExit={() => setSelectedSession(null)} />;
-  if (selectedSession === "Focus")
-    return <FocusSession onExit={() => setSelectedSession(null)} />;
+  const handleSessionClick = (label) => {
+    if (label === "Random") {
+      setShowModal(true);
+    } else {
+      startSession(label);
+    }
+  };
+
+  const handleNavClick = (label) => {
+    if (label === "History") openHistory();
+    else if (label === "Settings") openSettings();
+    else alert(`${label} not implemented yet.`);
+  };
+
+  const startRandomSession = () => {
+    const mins = parseInt(customMinutes) || 0;
+    const hrs = parseInt(customHours) || 0;
+    const totalMinutes = hrs * 60 + mins;
+
+    if (totalMinutes > 0 && totalMinutes <= 1440) {
+      startSession("Random", totalMinutes * 60);
+      setCustomMinutes("");
+      setCustomHours("");
+      setShowModal(false);
+    } else {
+      alert("Enter a valid duration up to 24 hours (1440 minutes).");
+    }
+  };
 
   return (
     <div
       className="h-screen w-screen bg-cover bg-center flex flex-col items-center justify-center text-white px-6 relative"
-      style={{ backgroundImage: "url('/bg.png')" }}
+      style={{
+        backgroundImage: "url('/japan-bg.jpg')",
+        filter: "brightness(76%)",
+      }}
     >
-      {/* Top Nav */}
+      {/* Top Right: External Link */}
       <div className="absolute top-4 right-4">
         <a
           href="https://chcekit.netlify.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm underline"
+          className="text-sm underline font-heading"
         >
           Check Out CheckIt →
         </a>
@@ -64,12 +88,9 @@ export default function LandingPage() {
       {/* Center Content */}
       <div className="text-center mt-6 space-y-2">
         <h1 className="text-2xl sm:text-3xl font-heading font-semibold">
-          Hey Pizza, welcome to LockedIn — time to lock in!
+          Hey {username}, welcome to LockedIn — time to lock in!
         </h1>
-        <div className="text-6xl sm:text-7xl font-mono">{formattedTime}</div>
-        <p className="text-xl sm:text-2xl text-white/90 italic">
-          It's you vs. you.
-        </p>
+        <div className="text-6xl sm:text-7xl font-heading">{formattedTime}</div>
       </div>
 
       {/* Bottom Left: Navigation Icons */}
@@ -78,6 +99,7 @@ export default function LandingPage() {
           <button
             key={icon.label}
             title={icon.label}
+            onClick={() => handleNavClick(icon.label)}
             className="w-10 h-10 flex items-center justify-center rounded-xl text-xl bg-black/40 hover:bg-white/20 transition-all"
           >
             {icon.emoji}
@@ -91,17 +113,64 @@ export default function LandingPage() {
           <button
             key={type.label}
             title={type.label}
-            onClick={() => setSelectedSession(type.label)}
-            className={`w-10 h-10 flex items-center justify-center rounded-xl text-xl transition-all duration-200 ${
-              selectedSession === type.label
-                ? "bg-purple-600 text-white scale-105 shadow-lg"
-                : "bg-black/40 text-white/70 hover:bg-white/20 hover:text-white"
-            }`}
+            onClick={() => handleSessionClick(type.label)}
+            className="w-10 h-10 flex items-center justify-center rounded-xl text-xl transition-all duration-200 bg-black/40 text-white/70 hover:bg-white/20 hover:text-white"
           >
             {type.emoji}
           </button>
         ))}
       </div>
+
+      {/* Modal for Random Time Input */}
+      {showModal && (
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white text-black rounded-xl p-6 w-80 shadow-lg space-y-4">
+            <h2 className="text-lg font-semibold text-center font-heading">
+              Set Custom Duration
+            </h2>
+
+            <div className="flex gap-2">
+              <input
+                type="number"
+                min="0"
+                max="24"
+                placeholder="Hours"
+                className="w-1/2 p-2 border rounded text-center font-heading"
+                value={customHours}
+                onChange={(e) => setCustomHours(e.target.value)}
+              />
+              <input
+                type="number"
+                min="0"
+                max="59"
+                placeholder="Minutes"
+                className="w-1/2 p-2 border rounded text-center font-heading"
+                value={customMinutes}
+                onChange={(e) => setCustomMinutes(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-between gap-2">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setCustomHours("");
+                  setCustomMinutes("");
+                }}
+                className="font-heading flex-1 py-2 bg-gray-300 hover:bg-gray-400 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={startRandomSession}
+                className="font-heading flex-1 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded"
+              >
+                Start
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
