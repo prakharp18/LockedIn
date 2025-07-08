@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
-// ⏱️ Format timer
+// Format timer
 function formatTime(secondsLeft) {
   const minutes = Math.floor(secondsLeft / 60)
     .toString()
@@ -10,7 +10,7 @@ function formatTime(secondsLeft) {
   return `${minutes}:${seconds}`;
 }
 
-// 🎯 Session Template
+// Session Template
 function SessionTemplate({
   duration,
   onExit,
@@ -49,7 +49,7 @@ function SessionTemplate({
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  // 🔔 Tab title live update
+  // Tab title live update
   useEffect(() => {
     const updateTitle = () => {
       const mins = Math.floor(secondsLeft / 60)
@@ -59,7 +59,7 @@ function SessionTemplate({
       document.title = `(${mins}:${secs}) LockedIn - ${sessionLabel}`;
     };
 
-    updateTitle(); // initial
+    updateTitle();
     const titleInterval = setInterval(updateTitle, 1000);
 
     return () => {
@@ -68,7 +68,7 @@ function SessionTemplate({
     };
   }, [secondsLeft, sessionLabel]);
 
-  // ⚙️ Log session end
+  // Log session end
   const handleSessionEnd = (status) => {
     if (sessionEndedRef.current) return;
     sessionEndedRef.current = true;
@@ -100,7 +100,6 @@ function SessionTemplate({
     );
   };
 
-  // 🧹 Before reload tab
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (!sessionEndedRef.current) handleSessionEnd("ended");
@@ -165,13 +164,11 @@ function SessionTemplate({
   );
 }
 
-// 🧠 Pull durations from localStorage
 const getStoredDuration = (label, fallbackMin) => {
   const stored = JSON.parse(localStorage.getItem("sessionDurations") || "{}");
   return (stored[label] || fallbackMin) * 60;
 };
 
-// ⏳ Variants
 export function WorkSession({ onExit, customDuration }) {
   const safeDuration = customDuration || getStoredDuration("Work", 50);
   return (

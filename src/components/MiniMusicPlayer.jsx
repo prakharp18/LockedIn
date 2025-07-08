@@ -1,4 +1,3 @@
-// components/MiniMusicPlayer.jsx
 import React, { useRef, useState } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 

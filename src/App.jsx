@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
 import {
@@ -13,6 +12,7 @@ import SessionHistoryControl from "./components/SessionHistoryControl";
 import MiniMusicPlayer from "./components/MiniMusicPlayer";
 import UsernamePrompt from "./components/UsernamePrompt";
 import Settings from "./components/Settings";
+import Stats from "./components/Stats";
 
 export default function App() {
   const [username, setUsername] = useState(null);
@@ -82,15 +82,15 @@ export default function App() {
       );
     case "Settings":
       return <Settings onBack={goBack} />;
-
     case "History":
       return (
         <>
           <SessionHistoryControl />
           <HistoryPage onBack={goBack} />
-          <MiniMusicPlayer />
         </>
       );
+    case "Stats":
+      return <Stats onBack={goBack} />;
     default:
       return (
         <>
@@ -99,8 +99,8 @@ export default function App() {
             startSession={startSession}
             openHistory={() => setView("History")}
             openSettings={() => setView("Settings")}
+            openStats={() => setView("Stats")}
           />
-          {/* ❌ Not showing ClearHistory on landing */}
           <MiniMusicPlayer />
         </>
       );

@@ -1,4 +1,3 @@
-// components/AnimatedDigit.jsx
 import { motion, AnimatePresence } from "framer-motion";
 
 function AnimatedDigit({ value }) {

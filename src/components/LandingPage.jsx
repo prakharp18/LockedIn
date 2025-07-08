@@ -19,6 +19,7 @@ export default function LandingPage({
   startSession,
   openHistory,
   openSettings,
+  openStats,
 }) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
@@ -47,6 +48,7 @@ export default function LandingPage({
   const handleNavClick = (label) => {
     if (label === "History") openHistory();
     else if (label === "Settings") openSettings();
+    else if (label === "Stats") openStats();
     else alert(`${label} not implemented yet.`);
   };
 
@@ -121,7 +123,6 @@ export default function LandingPage({
         ))}
       </div>
 
-      {/* Modal for Random Time Input */}
       {showModal && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white text-black rounded-xl p-6 w-80 shadow-lg space-y-4">

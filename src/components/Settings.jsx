@@ -1,4 +1,3 @@
-// src/components/Settings.jsx
 import React, { useEffect, useState } from "react";
 
 export default function Settings({ onBack }) {
@@ -48,7 +47,7 @@ export default function Settings({ onBack }) {
 
   const resetAll = () => {
     localStorage.clear();
-    location.reload(); // start fresh
+    location.reload();
   };
 
   const clearHistory = () => {
@@ -82,7 +81,7 @@ export default function Settings({ onBack }) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      {/* 🔧 Session Durations */}
+      {/* Session Durations */}
       <div className="w-full max-w-md font-heading mb-6">
         <h3 className="text-lg mb-2">Session Duration Presets (minutes)</h3>
         {Object.entries(durations).map(([label, val]) => (
