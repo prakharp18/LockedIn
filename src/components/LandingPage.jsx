@@ -31,6 +31,22 @@ export default function LandingPage({
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const imagesToPreload = [
+      "/work.jpg",
+      "/break.jpg",
+      "/writing2.jpg",
+      "/focus.gif",
+      "/random.jpg",
+      "/japan-bg.jpg",
+    ];
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   const formattedTime = currentTime.toLocaleTimeString("en-IN", {
     hour: "2-digit",
     minute: "2-digit",
