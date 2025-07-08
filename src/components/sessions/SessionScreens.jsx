@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
-// Format timer
 function formatTime(secondsLeft) {
   const minutes = Math.floor(secondsLeft / 60)
     .toString()
@@ -10,7 +9,6 @@ function formatTime(secondsLeft) {
   return `${minutes}:${seconds}`;
 }
 
-// Session Template
 function SessionTemplate({
   duration,
   onExit,
@@ -21,16 +19,13 @@ function SessionTemplate({
   const [secondsLeft, setSecondsLeft] = useState(duration);
   const [isRunning, setIsRunning] = useState(true);
   const sessionEndedRef = useRef(false);
-
   const progress = ((duration - secondsLeft) / duration) * 100;
 
-  // Reset on new session
   useEffect(() => {
     setSecondsLeft(duration);
     sessionEndedRef.current = false;
   }, [duration]);
 
-  // Tick the timer
   useEffect(() => {
     if (!isRunning || sessionEndedRef.current) return;
 
@@ -49,7 +44,6 @@ function SessionTemplate({
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  // Tab title live update
   useEffect(() => {
     const updateTitle = () => {
       const mins = Math.floor(secondsLeft / 60)
@@ -68,7 +62,6 @@ function SessionTemplate({
     };
   }, [secondsLeft, sessionLabel]);
 
-  // Log session end
   const handleSessionEnd = (status) => {
     if (sessionEndedRef.current) return;
     sessionEndedRef.current = true;
@@ -110,7 +103,7 @@ function SessionTemplate({
 
   return (
     <div
-      className="h-screen w-screen bg-cover bg-center flex flex-col items-center justify-center text-white relative"
+      className="h-screen w-screen bg-cover bg-center flex flex-col items-center justify-center text-white relative px-4"
       style={{ backgroundImage: `url('${bgUrl}')` }}
     >
       <button
@@ -123,7 +116,7 @@ function SessionTemplate({
         ← Back
       </button>
 
-      <div className="relative w-64 h-64 flex items-center justify-center">
+      <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
         <motion.div
           className="absolute w-full h-full rounded-full border-4"
           style={{ borderColor: ringColor }}
@@ -138,15 +131,15 @@ function SessionTemplate({
             ease: "easeInOut",
           }}
         />
-        <div className="text-5xl font-heading z-10">
+        <div className="text-4xl sm:text-5xl font-heading z-10">
           {formatTime(secondsLeft)}
         </div>
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex gap-3 sm:gap-4 flex-wrap justify-center">
         <button
           onClick={() => setIsRunning(!isRunning)}
-          className="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30 font-heading"
+          className="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30 font-heading text-sm sm:text-base"
         >
           {isRunning ? "Pause" : "Play"}
         </button>
@@ -155,7 +148,7 @@ function SessionTemplate({
             handleSessionEnd("ended");
             onExit();
           }}
-          className="bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 font-heading"
+          className="bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 font-heading text-sm sm:text-base"
         >
           End
         </button>

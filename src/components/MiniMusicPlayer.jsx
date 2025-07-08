@@ -15,11 +15,17 @@ const MiniMusicPlayer = () => {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-3 text-white">
-      <button onClick={togglePlayback} className="text-xl">
+    <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-white/10 backdrop-blur-lg px-4 py-1.5 rounded-full shadow-md flex items-center gap-2 text-white border border-white/10 text-sm sm:text-base max-w-[90%]">
+      <button
+        onClick={togglePlayback}
+        className="text-lg sm:text-xl p-1 hover:scale-110 transition-transform"
+        aria-label="Toggle music"
+      >
         {isPlaying ? <FaPause /> : <FaPlay />}
       </button>
-      <span className="text-sm font-heading opacity-80">Lofi Beats</span>
+      <span className="font-heading opacity-90 whitespace-nowrap">
+        Lofi Beats
+      </span>
       <audio ref={audioRef} src="/lofi-beats.mp3" loop />
     </div>
   );
