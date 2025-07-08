@@ -1,12 +1,31 @@
-# React + Vite
+# LockedIn – Minimal Focus Timer & Session Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**LockedIn** is a free, lightweight focus timer app designed for distraction-free deep work. Built for desktop browsers, it helps users manage their sessions, track productivity, and visualize progress — all without needing to sign up or log in.
 
-Currently, two official plugins are available:
+## 🧭 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **No Sign-Up Required:** 100% local. All data is stored securely in your browser using localStorage.
+- **Multiple Session Modes:** Includes Work, Focus, Break, Writing, and Random session types.
+- **Immersive UI:** Each session has its own aesthetic background and animated timer ring.
+- **Ambient Music Player:** Optional built-in looping lofi beats for better focus.
+- **Session History & Analytics:** View detailed logs and visual charts of your past sessions.
+- **Custom Settings:** Personalize your username, durations, and toggle features like sound or notifications.
 
-## Expanding the ESLint configuration
+## 🔧 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React** with Vite for fast development
+- **Tailwind CSS** for responsive, utility-first styling
+- **Framer Motion** for smooth UI animations
+- **Recharts** for visualizing session data
+- **localStorage** for offline session tracking (no backend required)
+
+## 🚀 Getting Started
+
+To run locally:
+
+```bash
+git clone https://github.com/yourusername/lockedin.git
+cd lockedin
+npm install
+npm run dev
+
