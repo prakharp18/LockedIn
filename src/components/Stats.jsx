@@ -103,11 +103,16 @@ export default function Stats({ onBack }) {
         </button>
 
         <div className="text-center mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-1">Statistics</h2>
-          <div className="text-sm text-white/80">
-            <span className="text-green-400">🟢 {statusCounts.completed}</span>{" "}
+          <h2 className="text-2xl sm:text-3xl font-heading mb-1">Statistics</h2>
+          <div className="text-sm text-white/80 font-heading">
+            <span className="text-green-400 font-heading">
+              🟢 {statusCounts.completed}
+            </span>{" "}
             Completed &nbsp;|&nbsp;
-            <span className="text-red-400">🔴 {statusCounts.ended}</span> Ended
+            <span className="text-red-400 font-heading">
+              🔴 {statusCounts.ended}
+            </span>{" "}
+            Ended
           </div>
         </div>
 
@@ -127,10 +132,10 @@ export default function Stats({ onBack }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {/* Radial Chart */}
           <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-4 w-full">
-            <h3 className="text-base sm:text-lg font-semibold mb-2 text-white/90 text-center">
+            <h3 className="text-base sm:text-lg font-heading mb-2 text-white/90 text-center">
               Session Type Usage
             </h3>
-            <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px]">
+            <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px] font-heading">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart
                   cx="50%"
@@ -156,10 +161,10 @@ export default function Stats({ onBack }) {
 
           {/* Bar Chart */}
           <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-4 w-full">
-            <h3 className="text-base sm:text-lg font-semibold mb-4 text-white/90 text-center">
+            <h3 className="text-base sm:text-lg font-heading mb-4 text-white/90 text-center">
               Daily Session Activity (Last 60 Days)
             </h3>
-            <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px]">
+            <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px] font-heading">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={dailyBarData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#333" />
@@ -196,8 +201,8 @@ export default function Stats({ onBack }) {
 function StatCard({ label, value }) {
   return (
     <div className="bg-black/30 rounded-xl p-3 text-center shadow border border-white/10">
-      <div className="text-xl font-bold text-purple-300">{value}</div>
-      <div className="text-xs text-white/60 mt-1">{label}</div>
+      <div className="text-xl font-heading text-purple-300">{value}</div>
+      <div className="text-xs font-heading text-white/60 mt-1">{label}</div>
     </div>
   );
 }
